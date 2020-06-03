@@ -143,8 +143,14 @@ function Print(data: string[]) {
     return [manager, employees];
   });
 
-  const [rootManager, rootEmployees] = teams.find(([manager]) =>
-    teams.every(([, employees]) => !employees.includes(manager)),
+  const employees = data.join(',').split(',');
+
+  const [rootManager] = employees.filter(
+    (employee, i, a) => a.indexOf(employee) === i,
+  );
+
+  const [, rootEmployees] = teams.find(
+    ([manager]) => manager === rootManager,
   ) as Team;
 
   let hierarchy = '';
